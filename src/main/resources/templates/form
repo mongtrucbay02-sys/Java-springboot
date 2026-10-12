@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Khóa học</title></head>
+<body>
+<h2 th:text="${course.id == null} ? 'Thêm khóa học' : 'Sửa khóa học'"></h2>
+
+<form method="post" th:object="${course}"
+      th:action="${course.id == null} ? @{/courses/create} : @{/courses/{id}/edit(id=${course.id})}">
+  <p>Tên: <input th:field="*{name}">
+     <span style="color:red" th:errors="*{name}"></span></p>
+
+  <p>Học phí: <input type="number" th:field="*{tuitionFee}">
+     <span style="color:red" th:errors="*{tuitionFee}"></span></p>
+
+  <p>Thời lượng (giờ): <input type="number" th:field="*{duration}">
+     <span style="color:red" th:errors="*{duration}"></span></p>
+
+  <p>Loại:
+    <select th:field="*{category.id}">
+      <option value="">-- Chọn loại --</option>
+      <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+    </select>
+    <span style="color:red" th:errors="*{category}"></span></p>
+
+  <p>Đang tuyển sinh: <input type="checkbox" th:field="*{active}"></p>
+
+  <p>Mô tả: <textarea th:field="*{description}"></textarea></p>
+
+  <button type="submit">Lưu</button>
+  <a th:href="@{/courses}">Quay lại</a>
+</form>
+</body>
+</html>
